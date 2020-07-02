@@ -1,15 +1,16 @@
-﻿namespace Api.Controllers
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Mvc;
-    using Newtonsoft.Json;
-    using System.IO;
-    using Api.DataFiles;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.IO;
+using Api.DataFiles;
 
-    public class FundsController : Controller
+namespace Api.Controllers
+{
+
+    public class FundsController : ControllerBase
     {
         [Route("get-funds")]
         public IActionResult GetFunds(string id)
