@@ -5,27 +5,26 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Api.DataFiles;
+using Api.Logic;
 
 namespace Api.Controllers
 {
     [ApiController]
     public class FundsController : ControllerBase
     {
-        [Route("get-funds")]
+        private readonly FundsLogic _fundsLogic;
+
+        public FundsController()
+        {
+            _fundsLogic = new FundsLogic();
+        }
+
+        [HttpGet("get-funds")]
         public async Task<IActionResult> GetFunds(string id)
         {
             try
             {
-                var file = await System.IO.File.ReadAllTextAsync("./DataFiles/funds.json");
-
-                var funds = JsonConvert.DeserializeObject<List<FundDetails>>(file);
-
-                if (!string.IsNullOrWhiteSpace(id))
-                {
-                    return Ok(funds.Single(x => x.MarketCode == id));
-                }
-
-                return Ok(funds);
+                return Ok(string.IsNullOrWhiteSpace(id) ? await _fundsLogic.GetFunds() : await _fundsLogic.GetFunds(id));
             }
             catch (Exception e)
             {
@@ -34,7 +33,7 @@ namespace Api.Controllers
             }
         }
 
-        [Route("get-managerfunds")]
+        [HttpGet("get-managerfunds")]
         public IActionResult GetManagerFunds(string manager)
         {
             var file = System.IO.File.ReadAllTextAsync("./DataFiles/funds.json").Result;
