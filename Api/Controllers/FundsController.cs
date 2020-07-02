@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Api.Logic;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Api.DataFiles;
-using Api.Logic;
+using System;
+using System.Threading.Tasks;
 
 namespace Api.Controllers
 {
@@ -34,14 +30,19 @@ namespace Api.Controllers
         }
 
         [HttpGet("get-managerfunds")]
-        public IActionResult GetManagerFunds(string manager)
+        public async Task<IActionResult> GetManagerFunds(string manager)
         {
-            var file = System.IO.File.ReadAllTextAsync("./DataFiles/funds.json").Result;
+            try
+            {
+                if (string.IsNullOrWhiteSpace(manager)) return BadRequest("Input parameter 'manager' is required.");
 
-            var funds = JsonConvert.DeserializeObject<List<FundDetails>>(file);
-
-            return this.Ok(funds.Where(x => x.Name == manager));
+                return Ok(await _fundsLogic.GetManagerFunds(manager));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
-
     }
 }

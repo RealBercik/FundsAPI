@@ -31,5 +31,12 @@ namespace Api.Logic
             // 2. By selecting single we would return a class of FundDetails. This creates an inconsistency in method behaviour as not passing in the id returns a List<FundDetails>.
             return funds.Where(x => x.MarketCode == id).ToList();
         }
+
+        public async Task<IList<FundDetails>> GetManagerFunds(string manager)
+        {
+            var funds = await _fundsData.LoadFundsData();
+
+            return funds.Where(x => x.Name == manager).ToList();
+        }
     }
 }
