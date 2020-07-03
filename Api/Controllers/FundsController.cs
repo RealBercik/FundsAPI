@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using Serilog;
 
 namespace Api.Controllers
 {
@@ -16,15 +17,29 @@ namespace Api.Controllers
         }
 
         [HttpGet("get-funds")]
-        public async Task<IActionResult> GetFunds(string id)
+        public async Task<IActionResult> GetFunds()
         {
             try
             {
-                return Ok(string.IsNullOrWhiteSpace(id) ? await _fundsLogic.GetFunds() : await _fundsLogic.GetFunds(id));
+                return Ok(await _fundsLogic.GetFunds());
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Log.Error(e, "General error");
+                throw;
+            }
+        }
+
+        [HttpGet("get-fund")]
+        public async Task<IActionResult> GetFund(string id)
+        {
+            try
+            {
+                return Ok(await _fundsLogic.GetFund(id));
+            }
+            catch (Exception e)
+            {
+                Log.Error(e, "General error");
                 throw;
             }
         }
@@ -40,7 +55,7 @@ namespace Api.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Log.Error(e, "General error");
                 throw;
             }
         }

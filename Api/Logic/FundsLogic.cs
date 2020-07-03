@@ -22,14 +22,12 @@ namespace Api.Logic
             return _fundsData.LoadFundsData();
         }
 
-        public async Task<IList<FundDetails>> GetFunds(string id)
+        public async Task<FundDetails> GetFund(string id)
         {
             var funds = await _fundsData.LoadFundsData();
 
-            // I have changed this from .Single for two reasons:
-            // 1. If nothing is found an exception is thrown and I prefer handling things 'gracefully'.
-            // 2. By selecting single we would return a class of FundDetails. This creates an inconsistency in method behaviour as not passing in the id returns a List<FundDetails>.
-            return funds.Where(x => x.MarketCode == id).ToList();
+            // I have changed this from .Single to SingleOrDefault so we can return null, and therefore 204 NoContent instead of 500 when nothing is found.
+            return funds.Where(x => x.MarketCode == id).SingleOrDefault();
         }
 
         public async Task<IList<FundDetails>> GetManagerFunds(string manager)

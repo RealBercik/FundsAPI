@@ -38,7 +38,6 @@ namespace Api
 
             app.UseRouting();
 
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
