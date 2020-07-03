@@ -264,4 +264,4 @@ __pycache__/
 wwwroot/
 
 #Exclude log folder
-[Aa]pi/[Ll]ogging
+[Aa]pi/[Ll]ogging/
