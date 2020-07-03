@@ -21,11 +21,13 @@ namespace Api.Controllers
         {
             try
             {
+                // Note: Installed logging utility Serilog will log which methods are being called. Please see ./Logging/log.json.
+
                 return Ok(await _fundsLogic.GetFunds());
             }
             catch (Exception e)
             {
-                Log.Error(e, "General error");
+                Log.Error(e, "General exception");
                 throw;
             }
         }
@@ -39,7 +41,7 @@ namespace Api.Controllers
             }
             catch (Exception e)
             {
-                Log.Error(e, "General error");
+                Log.Error(e, "General exception");
                 throw;
             }
         }
@@ -55,7 +57,7 @@ namespace Api.Controllers
             }
             catch (Exception e)
             {
-                Log.Error(e, "General error");
+                Log.Error(e, "General exception");
                 throw;
             }
         }

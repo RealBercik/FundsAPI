@@ -26,8 +26,8 @@ namespace Api.Logic
         {
             var funds = await _fundsData.LoadFundsData();
 
-            // I have changed this from .Single to SingleOrDefault so we can return null, and therefore 204 NoContent instead of 500 when nothing is found.
-            return funds.Where(x => x.MarketCode == id).SingleOrDefault();
+            // Should we use .Single here? If no results are found or more than a single result is found an exception will be thrown. We could handle this more gracefully by using FirstOrDefault maybe?
+            return funds.Single(x => x.Code == id);
         }
 
         public async Task<IList<FundDetails>> GetManagerFunds(string manager)

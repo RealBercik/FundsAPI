@@ -53,7 +53,7 @@ namespace ApiTest
         [Fact]
         public async Task GetFund_WhenCalled_ReturnsOkResult()
         {
-            const string testId = "6d32add3-b5b7-4200-9f15-8136088ee72b";
+            const string testId = "OCCAECAT";
 
             var result = await _controller.GetFund(testId);
 
@@ -63,11 +63,22 @@ namespace ApiTest
         [Fact]
         public async Task GetFund_WhenCalled_ReturnsFundDetails()
         {
-            const string testId = "6d32add3-b5b7-4200-9f15-8136088ee72b";
+            const string testId = "OCCAECAT";
             var result = await _controller.GetFund(testId);
             var okResult = result as OkObjectResult;
 
             Assert.IsType<FundDetails>(okResult?.Value);
+        }
+
+        [Fact]
+        public async Task GetFund_WhenCalled_ReturnsCorrectResult()
+        {
+            const string testId = "OCCAECAT";
+            var result = await _controller.GetFund(testId);
+            var okResult = result as OkObjectResult;
+
+            var item = Assert.IsType<FundDetails>(okResult?.Value);
+            Assert.Equal("Pivitol 9034", item.Name);
         }
 
         #endregion
