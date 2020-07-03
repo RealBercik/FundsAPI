@@ -1,8 +1,8 @@
 ﻿using Api.Logic;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using System;
 using System.Threading.Tasks;
-using Serilog;
 
 namespace Api.Controllers
 {

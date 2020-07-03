@@ -34,7 +34,8 @@ namespace Api.Logic
         {
             var funds = await _fundsData.LoadFundsData();
 
-            return funds.Where(x => x.Name == manager).ToList();
+            // Changed from Name to FundManager, mistake?
+            return funds.Where(x => x.FundManager == manager).ToList();
         }
     }
 }

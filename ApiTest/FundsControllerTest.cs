@@ -1,9 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Api.Controllers;
 using Api.DataFiles;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace ApiTest
@@ -53,9 +53,9 @@ namespace ApiTest
         [Fact]
         public async Task GetFund_WhenCalled_ReturnsOkResult()
         {
-            const string testId = "OCCAECAT";
+            const string testCode = "OCCAECAT";
 
-            var result = await _controller.GetFund(testId);
+            var result = await _controller.GetFund(testCode);
 
             Assert.IsType<OkObjectResult>(result);
         }
@@ -63,8 +63,8 @@ namespace ApiTest
         [Fact]
         public async Task GetFund_WhenCalled_ReturnsFundDetails()
         {
-            const string testId = "OCCAECAT";
-            var result = await _controller.GetFund(testId);
+            const string testCode = "OCCAECAT";
+            var result = await _controller.GetFund(testCode);
             var okResult = result as OkObjectResult;
 
             Assert.IsType<FundDetails>(okResult?.Value);
@@ -73,12 +73,46 @@ namespace ApiTest
         [Fact]
         public async Task GetFund_WhenCalled_ReturnsCorrectResult()
         {
-            const string testId = "OCCAECAT";
-            var result = await _controller.GetFund(testId);
+            const string testCode = "OCCAECAT";
+            var result = await _controller.GetFund(testCode);
             var okResult = result as OkObjectResult;
 
             var item = Assert.IsType<FundDetails>(okResult?.Value);
             Assert.Equal("Pivitol 9034", item.Name);
+        }
+
+        #endregion
+
+        #region GetManagerFunds
+
+        [Fact]
+        public async Task GetManagerFunds_WhenCalled_ReturnsOkResult()
+        {
+            const string managerCode = "Medcom";
+            var result = await _controller.GetManagerFunds(managerCode);
+
+            Assert.IsType<OkObjectResult>(result);
+        }
+
+        [Fact]
+        public async Task GetManagerFunds_WhenCalled_ReturnsListOfFundDetails()
+        {
+            const string managerCode = "Medcom";
+            var result = await _controller.GetManagerFunds(managerCode);
+            var okResult = result as OkObjectResult;
+
+            Assert.IsType<List<FundDetails>>(okResult?.Value);
+        }
+
+        [Fact]
+        public async Task GetManagerFunds_WhenCalled_ReturnsCorrectResult()
+        {
+            const string managerCode = "Medcom";
+            var result = await _controller.GetManagerFunds(managerCode);
+            var okResult = result as OkObjectResult;
+
+            var items = Assert.IsType<List<FundDetails>>(okResult?.Value);
+            Assert.NotEmpty(items.Where(x => x.Name == "Corecom 9122"));
         }
 
         #endregion
